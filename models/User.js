@@ -3,12 +3,24 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
-  email: { type: Date, default: Date.now },
+  email: { type: String, required: true },
   thoughts: { type: Array },
   friends: { type: Array },
   // TODO: add references to thoughts and friends
+},
+{
+  toJSON: {
+    virtuals: true,
+  },
+  id: false,
+}
+);
 
-});
+userSchema
+.virtual('friendCount')
+.get(function () {
+  return this.friends.length;
+})
 
 
 const User = mongoose.model('User', userSchema);
