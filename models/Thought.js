@@ -20,7 +20,6 @@ const thoughtSchema = new mongoose.Schema({
       ref: 'Reaction',
     },
   ],
-
 },
   {
     toJSON: {
@@ -29,14 +28,11 @@ const thoughtSchema = new mongoose.Schema({
     id: false,
   }
 );
-
 thoughtSchema
   .virtual('reactionCount')
   .get(function () {
     return Object.keys(this.reactions).length;
   })
-
-
 const Thought = mongoose.model('Thought', thoughtSchema);
 const Reaction = mongoose.model('Reaction', reactionSchema);
 
@@ -59,7 +55,6 @@ const init = async () => {
     },
     (err) => (err ? handleError(err) : console.log('Created new thought'))
   );
-
 };
 
 init();

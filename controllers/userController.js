@@ -15,10 +15,22 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // create a new user
   createUser(req, res) {
     User.create(req.body)
       .then((dbuserData) => res.json(dbuserData))
+      .catch((err) => res.status(500).json(err));
+  },
+  deleteUser(req, res) {
+    User.findOneAndRemove({ _id: req.params.userId })
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No user with this id!' })
+          : User.findOneAndUpdate(
+              { users: req.params.userId },
+              { $pull: { users: req.params.userId } },
+              { new: true }
+            )
+      )
       .catch((err) => res.status(500).json(err));
   },
 };

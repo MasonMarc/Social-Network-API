@@ -15,10 +15,22 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // create a new thought
   createThought(req, res) {
     Thought.create(req.body)
       .then((dbThoughtData) => res.json(dbThoughtData))
+      .catch((err) => res.status(500).json(err));
+  },
+  deleteThought(req, res) {
+    Thought.findOneAndRemove({ _id: req.params.thoughtId })
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No thought with this id!' })
+          : Thought.findOneAndUpdate(
+              { thoughts: req.params.thoughtId },
+              { $pull: { thoughts: req.params.thoughtId } },
+              { new: true }
+            )
+      )
       .catch((err) => res.status(500).json(err));
   },
 };
