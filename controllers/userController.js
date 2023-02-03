@@ -21,7 +21,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   updateUser(req, res) {
-    User.findOneAndUpdate({ _id: req.params.userId}, req.body, {new: true}, function(err, doc) {
+    User.findOneAndUpdate({ _id: req.params.userId}, req.body, {new: true}, function(err) {
       if (err) return res.send(500, {error: err});
       return res.send('Saved changes');
   })
@@ -30,7 +30,7 @@ module.exports = {
     User.findOneAndRemove({ _id: req.params.userId })
       .then((user) =>
         !user
-          ? res.status(404).json({ message: 'No user with this id!' })
+          ? res.status(404).json({ message: 'No user with that ID' })
           : User.findOneAndUpdate(
               { users: req.params.userId },
               { $pull: { users: req.params.userId } },
