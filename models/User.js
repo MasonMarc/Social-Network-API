@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   thoughts: { type: Array },
   friends: { type: Array },
-  // TODO: add references to thoughts and friends
 },
 {
   toJSON: {
