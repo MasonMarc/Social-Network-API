@@ -20,6 +20,12 @@ module.exports = {
       .then((dbuserData) => res.json(dbuserData))
       .catch((err) => res.status(500).json(err));
   },
+  updateUser(req, res) {
+    User.findOneAndUpdate({ _id: req.params.userId}, req.body, {new: true}, function(err, doc) {
+      if (err) return res.send(500, {error: err});
+      return res.send('Saved changes');
+  })
+},
   deleteUser(req, res) {
     User.findOneAndRemove({ _id: req.params.userId })
       .then((user) =>
